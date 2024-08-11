@@ -4,7 +4,6 @@ namespace App\Filament\App\Resources;
 
 use App\Enums\MenuGroupsEnum;
 use App\Filament\App\Resources\ProductResource\Pages;
-use App\Filament\App\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -12,14 +11,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox';
+
     protected static ?int $navigationSort = 90;
 
     public static function getModelLabel(): string
@@ -79,7 +77,7 @@ class ProductResource extends Resource
                     ->translateLabel(),
                 Tables\Columns\TextColumn::make('price')
                     ->translateLabel()
-                    ->money()
+                    ->money(),
             ])
             ->filters([
                 //

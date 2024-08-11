@@ -6,7 +6,6 @@ use App\Enums\MenuGroupsEnum;
 use App\Filament\App\Resources\TagResource\Pages;
 use App\Filament\App\Resources\TagResource\RelationManagers;
 use App\Models\Tag;
-use App\Providers\Filament\AppPanelProvider;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;

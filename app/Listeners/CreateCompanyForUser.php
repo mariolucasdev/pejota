@@ -20,6 +20,6 @@ class CreateCompanyForUser
      */
     public function handle(UserCreated $event): void
     {
-        (new CompanyService())->create($event->user);
+        (new CompanyService)->create($event->user);
     }
 }

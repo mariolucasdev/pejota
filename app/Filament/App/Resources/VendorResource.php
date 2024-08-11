@@ -5,7 +5,6 @@ namespace App\Filament\App\Resources;
 use App\Enums\MenuGroupsEnum;
 use App\Enums\MenuSortEnum;
 use App\Filament\App\Resources\VendorResource\Pages;
-use App\Filament\App\Resources\VendorResource\RelationManagers;
 use App\Helpers\PejotaHelper;
 use App\Models\Vendor;
 use Filament\Forms;
@@ -22,9 +21,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parallax\FilamentComments\Infolists\Components\CommentsEntry;
 use Parallax\FilamentComments\Tables\Actions\CommentsAction;
 
@@ -111,7 +108,7 @@ class VendorResource extends Resource
             ]);
     }
 
-        public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->schema([

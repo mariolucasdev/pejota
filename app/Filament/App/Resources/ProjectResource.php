@@ -39,7 +39,6 @@ class ProjectResource extends Resource
         return __(MenuGroupsEnum::ADMINISTRATION->value);
     }
 
-
     public static function getModelLabel(): string
     {
         return __('Project');
@@ -128,7 +127,7 @@ class ProjectResource extends Resource
 
                         TextEntry::make('description')
                             ->translateLabel()
-                            ->formatStateUsing(fn(string $state): HtmlString => new HtmlString($state))
+                            ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                             ->label('')
                             ->icon('heroicon-o-document-text'),
 
@@ -137,7 +136,7 @@ class ProjectResource extends Resource
                     Section::make([
                         TextEntry::make('active')
                             ->translateLabel()
-                            ->formatStateUsing(fn(string $state): string => $state ? __('Yes') : __('No')),
+                            ->formatStateUsing(fn (string $state): string => $state ? __('Yes') : __('No')),
 
                         TextEntry::make('created_at')
                             ->translateLabel()
@@ -151,14 +150,14 @@ class ProjectResource extends Resource
                             Action::make('edit')
                                 ->translateLabel()
                                 ->url(
-                                    fn(Model $record) => "{$record->id}/edit"
+                                    fn (Model $record) => "{$record->id}/edit"
                                 )
                                 ->icon('heroicon-o-pencil'),
 
                             Action::make('back')
                                 ->translateLabel()
                                 ->url(
-                                    fn(Model $record) => './.'
+                                    fn (Model $record) => './.'
                                 )
                                 ->icon('heroicon-o-chevron-left')
                                 ->color(Color::Neutral),
@@ -173,7 +172,7 @@ class ProjectResource extends Resource
                     ->schema([
                         Livewire::make(
                             ListTasks::class,
-                            fn(Model $record) => ['project' => $record]
+                            fn (Model $record) => ['project' => $record]
                         ),
                     ]),
             ]);

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Enums;
+
 enum MenuGroupsEnum: string
 {
     case ADMINISTRATION = 'Administration';

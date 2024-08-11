@@ -3,15 +3,12 @@
 namespace App\Filament\App\Resources;
 
 use App\Filament\App\Resources\UnitResource\Pages;
-use App\Filament\App\Resources\UnitResource\RelationManagers;
 use App\Models\Unit;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UnitResource extends Resource
 {

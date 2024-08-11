@@ -80,7 +80,7 @@ class WorkSessionResource extends Resource
                 Tables\Columns\TextColumn::make('duration')
                     ->label('Time')
                     ->translateLabel()
-                    ->formatStateUsing(fn($state) => PejotaHelper::formatDuration($state))
+                    ->formatStateUsing(fn ($state) => PejotaHelper::formatDuration($state))
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('title')
                     ->translateLabel()
@@ -132,16 +132,16 @@ class WorkSessionResource extends Resource
                         return $query
                             ->when(
                                 $data['from'],
-                                fn(Builder $query, $date): Builder => $query->where('start', '>=', $data['from'])
+                                fn (Builder $query, $date): Builder => $query->where('start', '>=', $data['from'])
                             )
                             ->when(
                                 $data['to'],
-                                fn(Builder $query, $date): Builder => $query->where('start', '<=', $data['to'])
+                                fn (Builder $query, $date): Builder => $query->where('start', '<=', $data['to'])
                             );
                     })
                     ->indicateUsing(function (array $data): ?string {
                         if ($data['from'] || $data['to']) {
-                            return __('Start') . ': ' . $data['from'] . ' - ' . $data['to'];
+                            return __('Start').': '.$data['from'].' - '.$data['to'];
                         }
 
                         return null;
@@ -155,7 +155,7 @@ class WorkSessionResource extends Resource
                         ->tooltip(__('Clone this session with same time and details, updating to current date'))
                         ->icon('heroicon-o-document-duplicate')
                         ->color(Color::Amber)
-                        ->action(fn(WorkSession $record) => self::clone($record)),
+                        ->action(fn (WorkSession $record) => self::clone($record)),
                 ]),
             ])
             ->bulkActions([
@@ -165,7 +165,7 @@ class WorkSessionResource extends Resource
                         ->tooltip(__('Clone this session with same time and details, updating to current date'))
                         ->icon('heroicon-o-document-duplicate')
                         ->color(Color::Amber)
-                        ->action(fn(Collection $records) => self::cloneCollection($records))
+                        ->action(fn (Collection $records) => self::cloneCollection($records))
                         ->requiresConfirmation()
                         ->deselectRecordsAfterCompletion(),
                 ]),
@@ -193,9 +193,9 @@ class WorkSessionResource extends Resource
     {
         $start = $get('start');
         $end = $get('end');
-        $duration = (int)$get('duration');
+        $duration = (int) $get('duration');
 
-        if (!$end && !$duration) {
+        if (! $end && ! $duration) {
             return;
         }
 
@@ -208,11 +208,11 @@ class WorkSessionResource extends Resource
         $end = Carbon::parse($end);
         $set('end', $end->toDateTimeString());
 
-        $duration = (int)$start->diffInMinutes($end);
+        $duration = (int) $start->diffInMinutes($end);
 
         $set('duration', $duration);
 
-        $set('time', PejotaHelper::formatDuration((int)$get('duration')));
+        $set('time', PejotaHelper::formatDuration((int) $get('duration')));
     }
 
     public static function getFormSchema(): array
@@ -230,7 +230,7 @@ class WorkSessionResource extends Resource
                             ->translateLabel()
                             ->timezone(PejotaHelper::getUserTimeZone())
                             ->required()
-                            ->default(fn(): string => now()->toDateTimeString())
+                            ->default(fn (): string => now()->toDateTimeString())
                             ->live(),
 
                         Forms\Components\DateTimePicker::make('end')
@@ -240,13 +240,13 @@ class WorkSessionResource extends Resource
                             ->required()
                             ->live()
                             ->afterStateUpdated(
-                                fn(
+                                fn (
                                     Forms\Get $get,
                                     Forms\Set $set): mixed => self::setTimers(
-                                    fromDuration: false,
-                                    get: $get,
-                                    set: $set
-                                )
+                                        fromDuration: false,
+                                        get: $get,
+                                        set: $set
+                                    )
                             ),
                     ]),
 
@@ -260,13 +260,13 @@ class WorkSessionResource extends Resource
                             ->helperText(__('Duration in minutes. If you enter manually end time, it will be calculated.'))
                             ->live()
                             ->afterStateUpdated(
-                                fn(
+                                fn (
                                     Forms\Get $get,
                                     Forms\Set $set): mixed => self::setTimers(
-                                    fromDuration: true,
-                                    get: $get,
-                                    set: $set
-                                )
+                                        fromDuration: true,
+                                        get: $get,
+                                        set: $set
+                                    )
                             ),
 
                         Forms\Components\TextInput::make('rate')
@@ -297,7 +297,7 @@ class WorkSessionResource extends Resource
                             ->relationship(
                                 'project',
                                 'name',
-                                fn(Builder $query, Forms\Get $get) => $query->byClient($get('client'))->orderBy('name')
+                                fn (Builder $query, Forms\Get $get) => $query->byClient($get('client'))->orderBy('name')
                             )
                             ->searchable()->preload(),
                     ]),
@@ -340,20 +340,20 @@ class WorkSessionResource extends Resource
                     Grid::make(5)->schema([
                         TextEntry::make('start')
                             ->formatStateUsing(
-                                fn(string $state): string => Carbon::parse($state)->tz(PejotaHelper::getUserTimeZone())->toDateTimeString()
+                                fn (string $state): string => Carbon::parse($state)->tz(PejotaHelper::getUserTimeZone())->toDateTimeString()
                             ),
                         TextEntry::make('end')->formatStateUsing(
-                            fn(string $state): string => Carbon::parse($state)->tz(PejotaHelper::getUserTimeZone())->toDateTimeString()
+                            fn (string $state): string => Carbon::parse($state)->tz(PejotaHelper::getUserTimeZone())->toDateTimeString()
                         ),
                         TextEntry::make('duration'),
                         TextEntry::make('rate'),
                         TextEntry::make('time')->getStateUsing(
-                            fn(Model $record): string => PejotaHelper::formatDuration($record->duration)
+                            fn (Model $record): string => PejotaHelper::formatDuration($record->duration)
                         ),
                     ]),
 
                     TextEntry::make('description')
-                        ->formatStateUsing(fn(string $state): HtmlString => new HtmlString($state))
+                        ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                         ->icon('heroicon-o-document-text'),
 
                 ]),
@@ -363,7 +363,7 @@ class WorkSessionResource extends Resource
 
     public static function cloneCollection(Collection $records)
     {
-        $records->each(fn($record) => self::clone($record));
+        $records->each(fn ($record) => self::clone($record));
     }
 
     public static function clone(WorkSession $record)
